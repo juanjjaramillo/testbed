@@ -1,0 +1,21 @@
+name: Matrix Workflow
+run-name: ${{ github.actor }} is testing out matrices
+on: [push]
+jobs:
+  example_matrix:
+    name: Print out all matrix combinations
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Print matrix
+        run: echo "version ${{ matrix.version }} os ${{ matrix.os }}"
+    # There will be six job runs with following variables:
+    # version 10, os ubuntu-latest
+    # version 10, os windows-latest
+    # version 12, os ubuntu-latest
+    # version 12, os windows-latest
+    # version 14, os ubuntu-latest
+    # version 14, os windows-latest
