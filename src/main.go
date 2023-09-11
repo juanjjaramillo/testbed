@@ -25,7 +25,7 @@ func parseFlags() *flagSet {
 	return &fs
 }
 
-// SetupLog shows a basic example on how to setup 
+// SetupLog shows a basic example on how to setup
 // package zap to do structured, leveled logging in Go.
 func setupLog(debug bool) (logger *zap.Logger) {
 	if debug {
