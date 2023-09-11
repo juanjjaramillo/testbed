@@ -1,13 +1,13 @@
 GO_DIR = ./src
 BIN_DIR = ./bin
+TMP_DIR = ./tmp
 
 .PHONE: all
-all: clean test build
+all: clean format test build
 
 .PHONY: clean
 clean:
-	rm -rf $(BIN_DIR)
-	rm -f *.out
+	rm -rf $(BIN_DIR) $(TMP_DIR)
 	go mod tidy
 
 .PHONY: format
@@ -21,11 +21,11 @@ test:
 
 .PHONY: build
 build:
-	go build -o $(BIN_DIR)/testbed $(GO_DIR)
+	CGO_ENABLED=0 go build -o $(BIN_DIR)/testbed $(GO_DIR)
 
 .PHONY: coverprofile
 coverprofile:
-	go test -coverprofile=coverage.out ./...
-	go tool cover -html=coverage.out
-	go tool cover -func=coverage.out
-	rm -f coverage.out
+	mkdir $(TMP_DIR) || true
+	go test -coverprofile=$(TMP_DIR)/coverage.out ./...
+	go tool cover -html=$(TMP_DIR)/coverage.out
+	go tool cover -func=$(TMP_DIR)/coverage.out
