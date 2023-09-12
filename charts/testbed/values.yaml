@@ -1,0 +1,40 @@
+# -- Whether to install the chart in debug mode
+debug: false
+
+image:
+  # -- Overrides image repository
+  repository: juanjjaramillo/testbed
+  # -- Overrides image tag (default is chart `appVersion`)
+  tag: ""
+  # -- Set it to either `IfNotPresent`, `Always` or `Never`
+  pullPolicy: Never
+
+# -- Overrides name used in selector labels
+nameOverride: ""
+# -- Overrides name used in `.metadata.name`
+fullnameOverride: ""
+
+# -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) specific to pods
+podAnnotations: {}
+
+# -- [Resource management for pods and containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- [Specify the node labels you want the target node to have](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
+nodeSelector: {}
+
+# -- [Affinity and anti-affinity allow the scheduler to schedule pods with matching constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+affinity: {}
+
+# -- [Tolerations allow the scheduler to schedule pods with matching taints](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+tolerations: []
