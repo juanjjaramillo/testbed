@@ -1,0 +1,55 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - title: '💥 Breaking Changes'
+    label: 'Type/break'
+  - title: '🚀 Features'
+    label: 'Type/feat'
+  - title: '🐛 Bug Fixes'
+    label: 'Type/fix'
+exclude-labels:
+  - 'Type/skip'
+
+autolabeler:
+  - label: 'Type/break'
+    title:
+      - '!:'
+  - label: 'Type/feat'
+    title:
+      - '^feat'
+  - label: 'Type/fix'
+    title:
+      - '^fix'
+  - label: 'Type/skip'
+    title:
+      - '^(build|chore|ci|docs|perf|refactor|revert|style|test)'
+
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+# Characters will be prepended with a backslash so that they will appear
+# verbatim instead of being interpreted as markdown format characters
+# You can add # and @ to disable mentions, and add ` to disable code blocks
+change-title-escapes: '\<*_&'
+replacers:
+  # Remove conventional commit prefix
+  - search: '[a-zA-Z]+(\([a-zA-Z]+\))?!?:'
+    replace: ''
+
+version-resolver:
+  major:
+    labels:
+      - 'Type/break'
+  minor:
+    labels:
+      - 'Type/feat'
+  patch:
+    labels:
+      - 'Type/fix'
+  default: minor
+
+template: |
+  # v$RESOLVED_VERSION
+
+  $CHANGES
+
+  Full Changelog: https://github.com/juanjjaramillo/testbed/compare/v$PREVIOUS_TAG...v$RESOLVED_VERSION
