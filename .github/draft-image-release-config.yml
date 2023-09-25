@@ -50,8 +50,6 @@ version-resolver:
   default: minor
 
 template: |
-  # v$RESOLVED_VERSION
-
   $CHANGES
 
   **Full Changelog**: https://github.com/juanjjaramillo/testbed/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
