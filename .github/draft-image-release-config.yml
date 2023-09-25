@@ -8,6 +8,8 @@ categories:
     label: 'Type/feat'
   - title: '🐛 Bug Fixes'
     label: 'Type/fix'
+  - title: '📝 Other'
+    label: 'Type/other'
 exclude-labels:
   - 'Type/skip'
 
@@ -21,7 +23,7 @@ autolabeler:
   - label: 'Type/fix'
     title:
       - '/^fix/i'
-  - label: 'Type/skip'
+  - label: 'Type/other'
     title:
       - '/^(build|chore|ci|docs|perf|refactor|revert|style|test)/i'
 
@@ -32,8 +34,8 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 replacers:
   # Remove conventional commit prefix
-  - search: '/[a-zA-Z]+(\([a-zA-Z]+\))?!?:\s*/'
-    replace: ''
+  - search: '/^- [a-zA-Z]+(\([a-zA-Z]+\))?!?:\s*/gm'
+    replace: '- '
 
 version-resolver:
   major:
