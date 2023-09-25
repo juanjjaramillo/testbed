@@ -28,7 +28,9 @@ jobs:
         id: draft-image-release
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         with:
-          commitish: main
+          # To achive consistent results with different branches
+          # Source: https://github.com/release-drafter/release-drafter/issues/1061#issuecomment-1032888355
+          commitish: "${{ github.ref_name }}"
           config-name: draft-image-release-config.yml
         #   disable-autolabeler: true
         env:
