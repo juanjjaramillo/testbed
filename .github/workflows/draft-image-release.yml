@@ -26,6 +26,7 @@ jobs:
       # Command `gh pr edit` needs to run in a repository,
       # so fetch a single file to make next step succeed
       - uses: actions/checkout@v4
+        if: github.event_name == 'pull_request'
         with:
           sparse-checkout: |
             README.md
