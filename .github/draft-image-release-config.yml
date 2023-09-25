@@ -14,16 +14,16 @@ exclude-labels:
 autolabeler:
   - label: 'Type/break'
     title:
-      - '!:'
+      - '/!:/'
   - label: 'Type/feat'
     title:
-      - '^feat'
+      - '/^feat/i'
   - label: 'Type/fix'
     title:
-      - '^fix'
+      - '/^fix/i'
   - label: 'Type/skip'
     title:
-      - '^(build|chore|ci|docs|perf|refactor|revert|style|test)'
+      - '/^(build|chore|ci|docs|perf|refactor|revert|style|test)/i'
 
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 # Characters will be prepended with a backslash so that they will appear
@@ -32,7 +32,7 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 replacers:
   # Remove conventional commit prefix
-  - search: '[a-zA-Z]+(\([a-zA-Z]+\))?!?:'
+  - search: '/[a-zA-Z]+(\([a-zA-Z]+\))?!?:/'
     replace: ''
 
 version-resolver:
