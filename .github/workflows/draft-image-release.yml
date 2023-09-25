@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   update_release_draft:
+    name: Update release draft
     permissions:
       # write permission is required to create a github release
       contents: write
@@ -27,9 +28,8 @@ jobs:
         id: draft-image-release
         # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
         with:
+          commitish: main
           config-name: draft-image-release-config.yml
         #   disable-autolabeler: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Print out all available outpus from `draft-image-release`
-        run: steps.draft-image-release.outputs
