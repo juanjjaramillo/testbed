@@ -32,7 +32,7 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 replacers:
   # Remove conventional commit prefix
-  - search: '/[a-zA-Z]+(\([a-zA-Z]+\))?!?:/'
+  - search: '/[a-zA-Z]+(\([a-zA-Z]+\))?!?:\s*/'
     replace: ''
 
 version-resolver:
