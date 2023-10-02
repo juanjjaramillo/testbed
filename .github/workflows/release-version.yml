@@ -1,0 +1,76 @@
+name: Publish Release
+
+on:
+  schedule:
+    - cron:  '0 12 * * 1'
+  workflow_dispatch:
+
+jobs:
+  publish-release:
+    name: Publish release
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v4
+
+      - name: Promote draft release
+        run: |
+          echo "$( gh release list --limit 5)"
+          tagName=$( gh release list | grep Draft | awk -F' ' '{ print $3; }' )
+          if [[ -n "$tagName" ]]; then
+            echo "Proceeding to publish release $tagName"
+            gh release edit $tagName --draft=false
+            echo "tagName=$tagName" >> "$GITHUB_ENV"
+          else
+            echo "Draft release tag not found. Skipping"
+          fi
+
+      - name: Bump Helm chart versions
+        run: |
+          echo "tagName=$tagName"
+          if [[ -n "$tagName" ]]; then
+            echo "Bumping Helm chart versions to $tagName"
+            tagName=$( echo "$tagName" | sed 's/v//' )
+            yq eval --inplace ".appVersion=\"$tagName\"" "charts/testbed/Chart.yaml"
+            yq eval --inplace ".version=\"$tagName\"" "charts/testbed/Chart.yaml"
+          else
+            echo "Release tag not found. Skipping"
+          fi
+
+      - name: Install Helm Docs
+        run: |
+          version="1.11.0"
+          wget https://github.com/norwoodj/helm-docs/releases/download/v$version/helm-docs_$version_Linux_x86_64.tar.gz
+          tar --extract --verbose --file helm-docs_$version_Linux_x86_64.tar.gz
+          sudo mv helm-docs /usr/local/sbin
+
+      - name: Run Helm Docs
+        run: |
+          helm-docs
+
+      - name: Configure Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Push changes
+        run: |
+          git branch "${{ github.actor }}/bump-versions-${{ github.sha }}"
+          git checkout "${{ github.actor }}/bump-versions-${{ github.sha }}"
+          git add charts/testbed/Chart.yaml
+          git add charts/testbed/README.md
+          git commit --message="ci: Bump Helm chart versions"
+          git push --set-upstream origin "${{ github.actor }}/bump-versions-${{ github.sha }}"
+
+      - name: Open pull request
+        run: |
+          gh pr create \
+            --base main \
+            --head "${{ github.actor }}/bump-versions-${{ github.sha }}" \
+            --title 'ci: Bump Helm chart versions' \
+            --body 'Update Helm chart versions to reflect the newly-published release'
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
