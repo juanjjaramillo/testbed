@@ -81,7 +81,7 @@ jobs:
             --title "ci: Bump Helm chart versions" \
             --body "Update Helm chart versions to reflect the newly-published release"
           gh pr merge \
-            --auto \
+            --admin \
             --body "Automatically merged by github-actions" \
             --delete-branch \
             --squash
