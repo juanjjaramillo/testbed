@@ -32,7 +32,6 @@ jobs:
 
       - name: Bump Helm chart versions in `Chart.yaml`
         run: |
-          echo "tagName=$tagName"
           if [[ -n "$tagName" ]]; then
             echo "Bumping Helm chart versions to $tagName"
             tagName=$( echo "$tagName" | sed 's/v//' )
