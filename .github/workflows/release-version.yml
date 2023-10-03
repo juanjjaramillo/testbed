@@ -18,7 +18,7 @@ jobs:
 
       - name: Promote draft release
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "$( gh release list --limit 5)"
           tagName=$( gh release list | grep Draft | awk -F' ' '{ print $3; }' )
@@ -71,7 +71,9 @@ jobs:
 
       - name: Create pull request, skip release notes, merge
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Default GITHUB_TOKEN does not allow to merge PRs with admin privileges
+          # Source: https://stackoverflow.com/questions/74274130/allow-github-actions-to-merge-prs-on-protected-branch
+          GITHUB_TOKEN: ${{ secrets.ADMIN_MERGE_TOKEN }}
         run: |
           gh pr create \
             --label "Type/skip" \
