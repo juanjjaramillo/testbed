@@ -41,9 +41,12 @@ jobs:
           fi
 
       - name: Install Helm Docs
+        # Use syntax ${version} instead of $version
+        # In certain contexts, only the less ambiguous ${version} form works
+        # Source: https://tldp.org/LDP/abs/html/parameter-substitution.html
         run: |
           version="1.11.0"
-          wget https://github.com/norwoodj/helm-docs/releases/download/v$version/helm-docs_$version_Linux_x86_64.tar.gz
+          wget https://github.com/norwoodj/helm-docs/releases/download/v${version}/helm-docs_${version}_Linux_x86_64.tar.gz
           tar --extract --verbose --file helm-docs_$version_Linux_x86_64.tar.gz
           sudo mv helm-docs /usr/local/sbin
 
