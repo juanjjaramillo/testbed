@@ -49,7 +49,7 @@ jobs:
         run: |
           version="1.11.0"
           wget https://github.com/norwoodj/helm-docs/releases/download/v${version}/helm-docs_${version}_Linux_x86_64.tar.gz
-          tar --extract --verbose --include helm-docs --file helm-docs_${version}_Linux_x86_64.tar.gz
+          tar --extract --verbose --file="helm-docs_${version}_Linux_x86_64.tar.gz" helm-docs
           sudo mv helm-docs /usr/local/sbin
 
       - name: Run Helm Docs
@@ -75,13 +75,13 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr create \
-            --label 'Type/skip' \
+            --label "Type/skip" \
             --base main \
             --head "${{ github.actor }}/bump-versions-${{ github.sha }}" \
-            --title 'ci: Bump Helm chart versions' \
-            --body 'Update Helm chart versions to reflect the newly-published release'
+            --title "ci: Bump Helm chart versions" \
+            --body "Update Helm chart versions to reflect the newly-published release"
           gh pr merge \
             --auto \
-            --body 'Automatically merged by github-actions' \
+            --body "Automatically merged by github-actions" \
             --delete-branch \
             --squash
