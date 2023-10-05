@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	h "github.com/juanjjaramillo/testbed/src/hello"
+	u "github.com/juanjjaramillo/testbed/src/utils"
 	"go.uber.org/zap"
 )
 
@@ -14,6 +15,7 @@ func main() {
 	f := parseFlags()
 	log := setupLog(f.debug)
 	sugar := log.Sugar()
+	sugar.Info(u.BuildTimeMetadata())
 	sugar.Info(h.Hello())
 }
 
