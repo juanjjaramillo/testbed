@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   update_release_draft:
+    if: ${{ (github.event_name == 'pull_request') || !contains(github.event.head_commit.message, 'Bump Helm chart versions') }}
     name: Update release draft
     permissions:
       # write permission is required to create a github release
@@ -31,11 +32,15 @@ jobs:
           sparse-checkout: |
             README.md
           sparse-checkout-cone-mode: false
+
       - name: Remove labels in preparation for autolabeler
         if: github.event_name == 'pull_request'
-        run: gh pr edit ${{ github.event.number }} --remove-label "Type/break,Type/feat,Type/fix,Type/other"
+        run: |
+          gh pr edit ${{ github.event.number }} \
+            --remove-label "Type/break,Type/feat,Type/fix,Type/other"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # Drafts your next Release notes as Pull Requests are merged into "main"
       - uses: release-drafter/release-drafter@v5
         id: draft-image-release
