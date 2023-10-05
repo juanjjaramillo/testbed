@@ -1,6 +1,19 @@
+# Directories
 GO_DIR = ./src
 BIN_DIR = ./bin
 TMP_DIR = ./tmp
+
+# Build-time metadata
+COMMIT ?= $(shell git rev-parse HEAD || echo "N/A")
+DATE := $(shell date)
+VERSION ?= $(shell git describe --abbrev=0 --tags $(git rev-list --tags --max-count=1) || echo "N/A")
+
+# Import path for Go module
+MODULE = github.com/juanjjaramillo/testbed
+IMPORT = $(MODULE)/src
+
+# Linker flags
+LDFLAGS ?= -ldflags="-X '$(IMPORT)/utils.commit=$(COMMIT)' -X '$(IMPORT)/utils.date=$(DATE)' -X '$(IMPORT)/utils.version=$(VERSION)'"
 
 .PHONE: all
 all: clean format test build
@@ -21,7 +34,7 @@ test:
 
 .PHONY: build
 build:
-	CGO_ENABLED=0 go build -o $(BIN_DIR)/testbed $(GO_DIR)
+	CGO_ENABLED=0 go build $(LDFLAGS) -o $(BIN_DIR)/testbed $(GO_DIR)
 
 .PHONY: coverprofile
 coverprofile:
