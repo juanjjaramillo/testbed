@@ -15,7 +15,7 @@ IMPORT = $(MODULE)/src
 # Linker flags
 LDFLAGS ?= -ldflags="-X '$(IMPORT)/utils.commit=$(COMMIT)' -X '$(IMPORT)/utils.date=$(DATE)' -X '$(IMPORT)/utils.version=$(VERSION)'"
 
-.PHONE: all
+.PHONY: all
 all: clean format test build
 
 .PHONY: clean
