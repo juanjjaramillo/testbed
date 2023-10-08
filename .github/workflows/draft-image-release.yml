@@ -37,7 +37,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           gh pr edit ${{ github.event.number }} \
-            --remove-label "Type/break,Type/feat,Type/fix,Type/other"
+            --remove-label "Release/break,Release/feat,Release/fix,Release/other"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

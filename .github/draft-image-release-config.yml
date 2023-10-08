@@ -1,29 +1,32 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
+# A known prefix used to filter release tags. For matching tags,
+# this prefix is stripped before attempting to parse the version
+tag-prefix: 'v'
 
 categories:
   - title: '💥 Breaking Changes'
-    label: 'Type/break'
+    label: 'Release/break'
   - title: '🚀 Features'
-    label: 'Type/feat'
+    label: 'Release/feat'
   - title: '🐛 Bug Fixes'
-    label: 'Type/fix'
+    label: 'Release/fix'
   - title: '📝 Other'
-    label: 'Type/other'
+    label: 'Release/other'
 exclude-labels:
-  - 'Type/skip'
+  - 'Release/skip'
 
 autolabeler:
-  - label: 'Type/break'
+  - label: 'Release/break'
     title:
       - '/!:/'
-  - label: 'Type/feat'
+  - label: 'Release/feat'
     title:
       - '/^feat/i'
-  - label: 'Type/fix'
+  - label: 'Release/fix'
     title:
       - '/^fix/i'
-  - label: 'Type/other'
+  - label: 'Release/other'
     title:
       - '/^(build|chore|ci|docs|perf|refactor|revert|style|test)/i'
 
@@ -40,13 +43,13 @@ replacers:
 version-resolver:
   major:
     labels:
-      - 'Type/break'
+      - 'Release/break'
   minor:
     labels:
-      - 'Type/feat'
+      - 'Release/feat'
   patch:
     labels:
-      - 'Type/fix'
+      - 'Release/fix'
   default: minor
 
 template: |

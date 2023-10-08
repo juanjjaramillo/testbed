@@ -76,7 +76,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ADMIN_MERGE_TOKEN }}
         run: |
           gh pr create \
-            --label "Type/skip" \
+            --label "Release/skip" \
             --base main \
             --head "${{ github.actor }}/bump-versions-${{ github.sha }}" \
             --title "ci: Bump Helm chart versions" \
