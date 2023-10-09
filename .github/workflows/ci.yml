@@ -1,0 +1,60 @@
+name: Continuous Integration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v4
+
+      - name: Docker metadata
+        uses: docker/metadata-action@v5
+        with:
+          # List of Docker images to use as base name for tags
+          images: |
+            juanjjaramillo/testbed
+          # Generate Docker tags based on the following events/attributes
+          tags: |
+            # reflects the last commit of the active branch
+            type=edge
+            # schedule event, nightly tag
+            type=schedule
+            # push tag event
+            type=semver,pattern={{version}}
+            # push tag event
+            type=semver,pattern={{major}}.{{minor}}
+            # push tag event, disabled if major is zero
+            type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
+
+      - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
