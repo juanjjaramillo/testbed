@@ -3,11 +3,6 @@
 # Build stage: use native architecture and Go's cross-compilation
 FROM --platform=$BUILDPLATFORM golang:1.21 AS build
 
-# Set by docker automatically
-ARG TARGETOS TARGETARCH
-ARG GOOS=$TARGETOS
-ARG GOARCH=$TARGETARCH
-
 # Set destination for COPY
 WORKDIR /app
 
@@ -18,6 +13,11 @@ RUN go mod download
 # Note the slash at the end, as explained in
 # https://docs.docker.com/engine/reference/builder/#copy
 COPY . ./
+
+# Set by docker automatically
+ARG TARGETOS TARGETARCH
+ARG GOOS=$TARGETOS
+ARG GOARCH=$TARGETARCH
 RUN make build
 
 # Final stage
