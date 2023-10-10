@@ -1,6 +1,35 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
-  ]
+    "config:recommended",
+  ],
+  "printConfig": true,
+  "postUpdateOptions": [
+    "gomodTidy",
+    "gomodUpdateImportPaths",
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+      ],
+      "matchCurrentVersion": "!/^(0|v0)/",
+      "automerge": true,
+    },
+  ],
+  "customManagers": [
+    {
+      "description": "Update helm-docs",
+      "customType": "regex",
+      "fileMatch": [
+        "(^|/)release-version\.ya?ml$",
+      ],
+      "matchStrings": [
+        "\\s+version=\"(?<currentValue>.*?)\"",
+      ],
+      "depNameTemplate": "norwoodj/helm-docs",
+      "datasourceTemplate": "github-releases",
+    },
+  ],
 }
