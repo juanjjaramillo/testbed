@@ -46,7 +46,7 @@ jobs:
         # In certain contexts, only the less ambiguous ${version} form works
         # Source: https://tldp.org/LDP/abs/html/parameter-substitution.html
         run: |
-          version="1.11.0"
+          version="v1.11.3"
           wget https://github.com/norwoodj/helm-docs/releases/download/v${version}/helm-docs_${version}_Linux_x86_64.tar.gz
           tar --extract --verbose --file="helm-docs_${version}_Linux_x86_64.tar.gz" helm-docs
           sudo mv helm-docs /usr/local/sbin
