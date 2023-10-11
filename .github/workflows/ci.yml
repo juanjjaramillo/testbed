@@ -31,6 +31,7 @@ jobs:
             juanjjaramillo/testbed
           # Generate Docker tags based on the following events/attributes
           tags: |
+            # workflow_dispatch, schedule, push branches events
             # reflects the last commit of the active branch
             type=edge
             # schedule event, nightly tag
