@@ -17,6 +17,18 @@
       "matchCurrentVersion": "!/^(0|v0)/",
       "automerge": true,
     },
+    {
+      "groupName": "Batch Golang version bumps in single PR",
+      "matchPackageNames": ["golang", "go"],
+    },
+    {
+      // Go versions updating is disabled by default
+      // Source: https://github.com/renovatebot/renovate/issues/16715
+      "matchDatasources": ["golang-version"],
+      "rangeStrategy": "bump",
+      // Disable automerge to make sure GitHub infrastructure has time to catch up
+      "automerge": false,
+    },
   ],
   "customManagers": [
     {
