@@ -18,13 +18,16 @@ jobs:
 
       - name: Promote draft release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Default GITHUB_TOKEN does not allow to create a new workflow run,
+          # so it does not allow CI pipeline to run when tag is pushed
+          # Source: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
+          GITHUB_TOKEN: ${{ secrets.ADMIN_MERGE_TOKEN }}
         run: |
           echo "$( gh release list --limit 5)"
           tagName=$( gh release list | grep Draft | awk -F' ' '{ print $3; }' )
           if [[ -n "$tagName" ]]; then
             echo "Proceeding to publish release $tagName"
-            gh release edit $tagName --draft=false
+            gh release edit $tagName --draft=false --latest
             echo "tagName=$tagName" >> "$GITHUB_ENV"
           else
             echo "Draft release tag not found. Skipping"
