@@ -42,3 +42,7 @@ coverprofile:
 	go test -coverprofile=$(TMP_DIR)/coverage.out ./...
 	go tool cover -html=$(TMP_DIR)/coverage.out
 	go tool cover -func=$(TMP_DIR)/coverage.out
+
+.PHONY: lint-charts
+lint-charts:
+	helm lint charts/**

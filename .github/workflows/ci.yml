@@ -15,6 +15,17 @@ on:
       - 'main'
 
 jobs:
+  lint-charts:
+    name: Lint Helm charts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v4
+
+      - name: Helm lint
+        run: |
+          make lint-charts
+
   build:
     name: Build Docker image
     runs-on: ubuntu-latest
