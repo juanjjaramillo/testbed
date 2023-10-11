@@ -14,9 +14,6 @@ on:
     branches:
       - 'main'
 
-env:
-  GO_VERSION: '1.20'
-
 jobs:
   lint-charts:
     name: Lint Helm charts
@@ -39,7 +36,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ env.GO_VERSION }}
+          go-version-file: './go.mod'
 
       - name: Run unit tests for Go
         run: |
