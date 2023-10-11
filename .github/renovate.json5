@@ -31,5 +31,17 @@
       "depNameTemplate": "norwoodj/helm-docs",
       "datasourceTemplate": "github-releases",
     },
+    {
+      "description": "Update Go version",
+      "customType": "regex",
+      "fileMatch": [
+        "(^|/)ci\.ya?ml$",
+      ],
+      "matchStrings": [
+        "\\sGO_VERSION: '(?<currentValue>.*)'\\s"
+      ],
+      "depNameTemplate": "go",
+      "datasourceTemplate": "golang-version",
+    },
   ],
 }
