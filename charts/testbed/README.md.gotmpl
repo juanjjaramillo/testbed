@@ -8,14 +8,45 @@
 
 {{ template "chart.homepageLine" . }}
 
-## Installation
-You can install the chart in production mode
+## Prerequisites
+
+[Helm](https://helm.sh) must be installed to use the charts.  Please refer to Helm's [documentation](https://helm.sh/docs) to get started.
+
+Once Helm has been set up correctly, add the repo:
 ```shell
-helm install testbed .
+helm repo add testbed-charts https://juanjjaramillo.github.io/testbed
+```
+
+If you had already added this repo earlier, retrieve the latest versions of the packages:
+```shell
+helm repo update
+```
+
+## Available Chart Releases
+
+To see the available charts:
+```shell
+# `--devel` flag is only needed to show development
+# versions (v0.0.0, alpha, beta, and release candidate releases)
+helm search repo --devel testbed-charts
+```
+
+If you want to see a list of all available charts and releases, check [index.yaml](https://juanjjaramillo.github.io/testbed/index.yaml).
+
+## Installation
+
+To install the `testbed` chart in production mode:
+```shell
+helm install my-testbed testbed-charts/testbed
 ```
 or debug mode
 ```shell
-helm install testbed . --set debug=true
+helm install my-testbed testbed-charts/testbed --set debug=true
+```
+
+To uninstall the chart:
+```shell
+helm delete my-testbed
 ```
 
 {{ template "chart.sourcesSection" . }}

@@ -6,7 +6,9 @@ type: application
 version: '0.5.0'
 # Application version
 appVersion: '0.5.0'
-home: https://github.com/juanjjaramillo/testbed/
+home: https://github.com/juanjjaramillo/testbed/blob/main/charts/testbed/README.md
+sources:
+  - https://github.com/juanjjaramillo/testbed/
 maintainers:
   - name: Juan Jose Jaramillo
     url: https://github.com/juanjjaramillo
