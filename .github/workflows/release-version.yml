@@ -1,4 +1,4 @@
-name: Publish Release
+name: Release Version
 
 on:
   schedule:
@@ -52,7 +52,7 @@ jobs:
           version="v1.11.3"
           stripped=$( echo "${version}" | sed s'/v//' )
           wget https://github.com/norwoodj/helm-docs/releases/download/${version}/helm-docs_${stripped}_Linux_x86_64.tar.gz
-          tar --extract --verbose --file="helm-docs_${version}_Linux_x86_64.tar.gz" helm-docs
+          tar --extract --verbose --file="helm-docs_${stripped}_Linux_x86_64.tar.gz" helm-docs
           sudo mv helm-docs /usr/local/sbin
 
       - name: Run Helm Docs
