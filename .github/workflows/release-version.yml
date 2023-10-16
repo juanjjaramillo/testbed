@@ -50,7 +50,8 @@ jobs:
         # Source: https://tldp.org/LDP/abs/html/parameter-substitution.html
         run: |
           version="v1.11.3"
-          wget https://github.com/norwoodj/helm-docs/releases/download/${version}/helm-docs_${version}_Linux_x86_64.tar.gz
+          stripped=$( echo "${version}" | sed s'/v//' )
+          wget https://github.com/norwoodj/helm-docs/releases/download/${version}/helm-docs_${stripped}_Linux_x86_64.tar.gz
           tar --extract --verbose --file="helm-docs_${version}_Linux_x86_64.tar.gz" helm-docs
           sudo mv helm-docs /usr/local/sbin
 
