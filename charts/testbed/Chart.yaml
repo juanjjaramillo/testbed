@@ -3,9 +3,9 @@ name: testbed
 description: A Helm chart for testing Helm and Kubernetes concepts
 type: application
 # Chart version
-version: '0.6.3'
+version: ''
 # Application version
-appVersion: '0.6.3'
+appVersion: ''
 home: https://github.com/juanjjaramillo/testbed/blob/main/charts/testbed/README.md
 sources:
   - https://github.com/juanjjaramillo/testbed/
