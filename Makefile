@@ -16,17 +16,23 @@ IMPORT = $(MODULE)/src
 LDFLAGS ?= -ldflags="-X '$(IMPORT)/utils.commit=$(COMMIT)' -X '$(IMPORT)/utils.date=$(DATE)' -X '$(IMPORT)/utils.version=$(VERSION)'"
 
 .PHONY: all
-all: clean format test build
+all: clean format modules test build
 
 .PHONY: clean
 clean:
 	rm -rf $(BIN_DIR) $(TMP_DIR)
-	go mod tidy
 
 .PHONY: format
 format:
 	go fmt ./...
 	go vet ./...
+
+.PHONY: modules
+modules:
+	@# Add any missing modules and remove unused modules in go.mod and go.sum
+	go mod tidy
+	@# Verify dependencies have not been modified since being downloaded
+	go mod verify
 
 .PHONY: test
 test:
@@ -46,3 +52,8 @@ coverprofile:
 .PHONY: lint-charts
 lint-charts:
 	helm lint charts/**
+
+.PHONY: validate-modules
+validate-modules: modules
+	@# Fail if changes have not been committed
+	git diff --exit-code -- go.sum go.mod
