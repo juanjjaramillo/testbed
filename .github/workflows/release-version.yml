@@ -6,17 +6,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-release:
-    name: Publish release
+  promote-draft-release:
+    name: Promote draft release
     permissions:
       contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
+    outputs:
+      releaseAvailable: ${{ steps.promote.outputs.releaseAvailable }}
+      tagName: ${{ steps.promote.outputs.tagName }}
     steps:
+      # Command `gh release edit` needs to run in a repository,
+      # so fetch a single file to make next step succeed
       - name: Checkout GitHub Repository
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            README.md
+          sparse-checkout-cone-mode: false
 
       - name: Promote draft release
+        id: promote
         env:
           # Default GITHUB_TOKEN does not allow to create a new workflow run,
           # so it does not allow CI pipeline to run when tag is pushed
@@ -28,21 +37,31 @@ jobs:
           if [[ -n "$tagName" ]]; then
             echo "Proceeding to publish release $tagName"
             gh release edit $tagName --draft=false --latest
-            echo "tagName=$tagName" >> "$GITHUB_ENV"
+            echo "releaseAvailable=true" >> "$GITHUB_OUTPUT"
+            echo "tagName=$tagName" >> "$GITHUB_OUTPUT"
           else
             echo "Draft release tag not found. Skipping"
+            echo "releaseAvailable=false" >> "$GITHUB_OUTPUT"
           fi
+
+  bump-charts:
+    name: Bump Helm chart versions
+    needs: [promote-draft-release]
+    if: needs.promote-draft-release.outputs.releaseAvailable
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v4
 
       - name: Bump Helm chart versions in `Chart.yaml`
         run: |
-          if [[ -n "$tagName" ]]; then
-            echo "Bumping Helm chart versions to $tagName"
-            tagName=$( echo "$tagName" | sed 's/v//' )
-            yq eval --inplace ".appVersion=\"$tagName\"" "charts/testbed/Chart.yaml"
-            yq eval --inplace ".version=\"$tagName\"" "charts/testbed/Chart.yaml"
-          else
-            echo "Release tag not found. Skipping"
-          fi
+          echo "Bumping Helm chart versions to $tagName"
+          tagName=$( echo "$tagName" | sed 's/v//' )
+          yq eval --inplace ".appVersion=\"$tagName\"" "charts/testbed/Chart.yaml"
+          yq eval --inplace ".version=\"$tagName\"" "charts/testbed/Chart.yaml"
 
       - name: Install Helm Docs
         # Use syntax ${version} instead of $version
