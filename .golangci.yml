@@ -1,0 +1,57 @@
+# Customized version of 
+# https://github.com/golangci/golangci-lint/blob/master/.golangci.reference.yml
+
+
+# All available settings of specific linters
+linters-settings:
+  goconst:
+    # Minimal length of string constant.
+    # Default: 3
+    min-len: 20
+
+  gocyclo:
+    # Minimal code complexity to report.
+    # Default: 30 (but we recommend 10-20)
+    min-complexity: 10
+
+
+linters:
+  # Disable all linters.
+  # Default: false
+  disable-all: true
+  # Enable specific linter
+  # https://golangci-lint.run/usage/linters/#enabled-by-default
+  enable:
+    - bodyclose
+    - dupl
+    - errcheck
+    - funlen
+    - gocheckcompilerdirectives
+    - goconst
+    - gocyclo
+    - gofmt
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - loggercheck
+    - misspell
+    - staticcheck
+    - unconvert
+    - unused
+
+
+# Specify issues to include/exclude and limit number of issues to show
+issues:
+  # List of regexps of issue texts to exclude.
+  #
+  # But independently of this option we use default exclude patterns,
+  # it can be disabled by `exclude-use-default: false`.
+  # To list all excluded by default patterns execute `golangci-lint run --help`
+  #
+  # Default: https://golangci-lint.run/usage/false-positives/#default-exclusions
+  # exclude:
+  #   - abcdef
+
+  # Show only new issues created after git revision `REV`.
+  new-from-rev: HEAD~1

@@ -35,7 +35,7 @@ func setupLog(debug bool) (logger *zap.Logger) {
 	} else {
 		logger, _ = zap.NewProduction()
 	}
-	defer logger.Sync()
+	defer logger.Sync() //nolint:errcheck
 
 	return logger
 }
