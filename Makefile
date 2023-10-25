@@ -16,7 +16,7 @@ IMPORT = $(MODULE)/src
 LDFLAGS ?= -ldflags="-X '$(IMPORT)/utils.commit=$(COMMIT)' -X '$(IMPORT)/utils.date=$(DATE)' -X '$(IMPORT)/utils.version=$(VERSION)'"
 
 .PHONY: all
-all: clean format modules test build
+all: clean format modules lint test build
 
 .PHONY: clean
 clean:
@@ -33,6 +33,10 @@ modules:
 	go mod tidy
 	@# Verify dependencies have not been modified since being downloaded
 	go mod verify
+
+.PHONY: lint
+lint:
+	golangci-lint run
 
 .PHONY: test
 test:
