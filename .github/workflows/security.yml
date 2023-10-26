@@ -1,0 +1,29 @@
+name: Security
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+  push:
+    branches:
+      - 'main'
+      - 'renovate/**'
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  govulncheck:
+    name: Run govulncheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v4
+
+      - name: Analyze source code
+        uses: golang/govulncheck-action@v1
+        with:
+          go-version-file: './go.mod'
+          repo-checkout: false
