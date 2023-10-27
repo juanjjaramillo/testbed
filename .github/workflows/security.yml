@@ -16,7 +16,7 @@ on:
 
 jobs:
   govulncheck:
-    name: Run govulncheck
+    name: Govulncheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout GitHub Repository
@@ -29,11 +29,14 @@ jobs:
           repo-checkout: false
 
   trivy:
-    name: Run Trivy
+    name: Trivy
+    if: ${{ github.event.schedule || (github.event_name == 'push' && github.ref_name == 'main') }}
     runs-on: ubuntu-latest
     permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      # For actions/checkout to fetch code
+      contents: read
+      # For github/codeql-action/upload-sarif to upload SARIF results
+      security-events: write
     steps:
       - name: Checkout GitHub Repository
         uses: actions/checkout@v4
@@ -48,7 +51,57 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
-        if: ${{ github.event.schedule || (github.event_name == 'push' && github.ref_name == 'main') }}
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
+
+  openssf:
+    name: OpenSSF Scorecard
+    if: ${{ github.event.schedule || (github.event_name == 'push' && github.ref_name == 'main') }}
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to publish results and get a badge (see publish_results below)
+      id-token: write
+      # For actions/checkout to fetch code
+      contents: read
+      # For github/codeql-action/upload-sarif to upload SARIF results
+      security-events: write
+
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2
+        with:
+          persist-credentials: false
+
+      - name: Run analysis
+        uses: ossf/scorecard-action@e38b1902ae4f44df626f11ba0734b14fb91f8f86 # v2.1.2
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # (Optional) "write" PAT token. Uncomment the `repo_token` line below if:
+          # - you want to enable the Branch-Protection check on a *public* repository, or
+          # - you are installing Scorecard on a *private* repository
+          # To create the PAT, follow the steps in
+          # https://github.com/ossf/scorecard-action#authentication-with-pat
+          repo_token: ${{ secrets.SCORECARD_TOKEN }}
+
+          # Public repositories:
+          #   - Publish results to OpenSSF REST API for easy access by consumers
+          #   - Allows the repository to include the Scorecard badge.
+          #   - See https://github.com/ossf/scorecard-action#publishing-results
+          # For private repositories:
+          #   - `publish_results` will always be set to `false`, regardless
+          #     of the value entered here
+          publish_results: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # v3.1.0
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+
+      - name: Upload OSSF Scorecard scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@17573ee1cc1b9d061760f3a006fc4aac4f944fd5 # v2.2.4
+        with:
+          sarif_file: results.sarif
