@@ -79,6 +79,11 @@ jobs:
           make validate-modules
           make test
 
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./tmp/
+
   build:
     name: Build Docker image
     runs-on: ubuntu-latest
