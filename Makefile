@@ -40,7 +40,8 @@ lint:
 
 .PHONY: test
 test:
-	go test -cover ./...
+	mkdir $(TMP_DIR) || true
+	go test -cover -covermode=count -coverprofile=$(TMP_DIR)/cover.out ./...
 
 .PHONY: build
 build:
@@ -49,9 +50,9 @@ build:
 .PHONY: coverprofile
 coverprofile:
 	mkdir $(TMP_DIR) || true
-	go test -coverprofile=$(TMP_DIR)/coverage.out ./...
-	go tool cover -html=$(TMP_DIR)/coverage.out
-	go tool cover -func=$(TMP_DIR)/coverage.out
+	go test -cover -covermode=count -coverprofile=$(TMP_DIR)/cover.out ./...
+	go tool cover -html=$(TMP_DIR)/cover.out
+	go tool cover -func=$(TMP_DIR)/cover.out
 
 .PHONY: lint-charts
 lint-charts:
