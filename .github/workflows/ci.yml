@@ -48,6 +48,12 @@ jobs:
           # When `install-mode` is `goinstall` the value can be v1.2.3, `latest`, or the hash of a commit.
           version: latest
 
+          # Optional: golangci-lint command line arguments.
+          # 
+          # Note: by default the `.golangci.yml` file should be at the root of the repository.
+          # The location of the configuration file can be changed by using `--config=`
+          args: --config=./.github/.golangci.yml
+
           # Optional: if set to true, then all caching functionality will be completely disabled,
           #           takes precedence over all other caching options.
           # Skip cache because of flaky behavior. Source:
