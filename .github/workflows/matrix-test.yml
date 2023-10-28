@@ -1,6 +1,11 @@
 name: Matrix Workflow
 run-name: ${{ github.actor }} is testing out matrices
+
 on: [push]
+
+permissions:
+  contents: read
+
 jobs:
   example_matrix:
     name: Print out all matrix combinations
