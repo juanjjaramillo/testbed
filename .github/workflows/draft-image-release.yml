@@ -17,10 +17,10 @@ jobs:
     if: ${{ (github.event_name == 'pull_request') || !contains(github.event.head_commit.message, 'Bump Helm chart versions') }}
     name: Autolabeler and release drafter
     permissions:
-      # write permission is required to create a github release
+      # Write permission is required to create a GitHub release
       contents: write
-      # write permission is required for autolabeler
-      # otherwise, read permission is required at least
+      # Write permission is required for autolabeler
+      # Otherwise, read permission is required at least
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
