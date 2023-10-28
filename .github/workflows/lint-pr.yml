@@ -23,7 +23,7 @@ jobs:
 
       - name: Write error message if lint fails
         if: failure() && (steps.lint_pr_title.outputs.error_message != null)
-        uses: marocchino/sticky-pull-request-comment@f6a2580ed520ae15da6076e7410b088d1c5dddd9 # v2.7.0
+        uses: marocchino/sticky-pull-request-comment@efaaab3fd41a9c3de579aba759d2552635e590fd # v2.8.0
         with:
           header: pr-title-lint-error
           message: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Delete resolved issues
         if: ${{ steps.lint_pr_title.outputs.error_message == null }}
-        uses: marocchino/sticky-pull-request-comment@f6a2580ed520ae15da6076e7410b088d1c5dddd9 # v2.7.0
+        uses: marocchino/sticky-pull-request-comment@efaaab3fd41a9c3de579aba759d2552635e590fd # v2.8.0
         with:
           header: pr-title-lint-error
           delete: true
