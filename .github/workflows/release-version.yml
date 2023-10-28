@@ -5,10 +5,14 @@ on:
     - cron:  '0 12 * * 1'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   promote-draft-release:
     name: Promote draft release
     permissions:
+      # Write permission is required to create a GitHub release
       contents: write
     runs-on: ubuntu-latest
     outputs:
@@ -45,9 +49,6 @@ jobs:
     name: Bump Helm chart versions
     needs: [promote-draft-release]
     if: needs.promote-draft-release.outputs.tagName
-    permissions:
-      contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout GitHub Repository
