@@ -1,6 +1,6 @@
 # testbed
 
-[![GitHub release](https://img.shields.io/github/v/release/juanjjaramillo/testbed)](https://github.com/juanjjaramillo/testbed/releases/latest)
+[![Go Reference](https://pkg.go.dev/badge/github.com/juanjjaramillo/testbed.svg)](https://pkg.go.dev/github.com/juanjjaramillo/testbed)
 [![Continuous Integration](https://github.com/juanjjaramillo/testbed/actions/workflows/ci.yml/badge.svg)](https://github.com/juanjjaramillo/testbed/actions/workflows/ci.yml)
 [![Security](https://github.com/juanjjaramillo/testbed/actions/workflows/security.yml/badge.svg)](https://github.com/juanjjaramillo/testbed/actions/workflows/security.yml)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/juanjjaramillo/testbed/badge)](https://securityscorecards.dev/viewer/?uri=github.com/juanjjaramillo/testbed)
