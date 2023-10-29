@@ -44,10 +44,14 @@ jobs:
       - name: Checkout GitHub Repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Run Trivy vulnerability scanner in repo mode
+      - name: Build image from Dockerfile
+        run: |
+          docker build --tag juanjjaramillo/testbed:${{ github.sha }} .
+
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@b77b85c0254bba6789e787844f0585cde1e56320 # 0.13.0
         with:
-          scan-type: 'fs'
+          image-ref: 'juanjjaramillo/testbed:${{ github.sha }}'
           ignore-unfixed: true
           format: 'sarif'
           output: 'trivy-results.sarif'
