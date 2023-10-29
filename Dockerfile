@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Build stage: use native architecture and Go's cross-compilation
-FROM --platform=$BUILDPLATFORM golang:1.21@sha256:e63f8cf91f5b59ce217f2804936132b2964b04bb5b06c0a79b9e37990a6ab148 AS build
+FROM --platform=$BUILDPLATFORM golang:1.20.9@sha256:27d52a12d92dff5a86ebc095489c5a3aa5179e00c1993dea2c4b5c2fb3e50261 AS build
 
 # Set destination for COPY
 WORKDIR /app
