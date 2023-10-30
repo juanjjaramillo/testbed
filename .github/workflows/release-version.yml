@@ -49,12 +49,16 @@ jobs:
     name: Bump Helm chart versions
     needs: [promote-draft-release]
     if: needs.promote-draft-release.outputs.tagName
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout GitHub Repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Bump Helm chart versions in `Chart.yaml`
+        env:
+          tagName: ${{ needs.promote-draft-release.outputs.tagName }}
         run: |
           echo "Bumping Helm chart versions to $tagName"
           tagName=$( echo "$tagName" | sed 's/v//' )
