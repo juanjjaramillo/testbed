@@ -21,3 +21,6 @@ helm-docs
 # Go workspace file
 go.work
 bin/
+
+# GPG temp directory for Helm chart releaser
+.cr-gpg/
