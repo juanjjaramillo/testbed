@@ -2,27 +2,33 @@ package main
 
 import (
 	"flag"
+	"time"
+
 	h "github.com/juanjjaramillo/testbed/src/hello"
 	u "github.com/juanjjaramillo/testbed/src/utils"
 	"go.uber.org/zap"
 )
 
 type flagSet struct {
-	debug bool
+	debug      bool
+	iterations int
+	sleepSec   int
 }
 
 func main() {
-	f := parseFlags()
-	log := setupLog(f.debug)
+	fs := parseFlags()
+	log := setupLog(fs.debug)
 	sugar := log.Sugar()
 	sugar.Info(u.BuildTimeMetadata())
-	sugar.Info(h.Hello())
+	logMessages(fs, sugar)
 }
 
 // ParseFlags is a proof of concept for parsing flags.
 func parseFlags() *flagSet {
 	var fs flagSet
 	flag.BoolVar(&fs.debug, "debug", false, "sets log level to debug")
+	flag.IntVar(&fs.iterations, "iterations", 1, "defines how many times to print log message")
+	flag.IntVar(&fs.sleepSec, "sleepSec", 1, "defines how many seconds to sleep before printing next log message")
 	flag.Parse()
 	return &fs
 }
@@ -38,4 +44,18 @@ func setupLog(debug bool) (logger *zap.Logger) {
 	defer logger.Sync() //nolint:errcheck
 
 	return logger
+}
+
+func logMessages(fs *flagSet, sugar *zap.SugaredLogger) {
+	if fs.iterations < 0 {
+		for {
+			sugar.Info(h.Hello())
+			time.Sleep(time.Duration(fs.sleepSec) * time.Second)
+		}
+	} else {
+		for it := fs.iterations; it > 0; it-- {
+			sugar.Info(h.Hello())
+			time.Sleep(time.Duration(fs.sleepSec) * time.Second)
+		}
+	}
 }
