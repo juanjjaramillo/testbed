@@ -61,10 +61,12 @@ helm delete my-testbed
 | image.pullPolicy | string | `"IfNotPresent"` | Set it to either `IfNotPresent`, `Always` or `Never` |
 | image.repository | string | `"juanjjaramillo/testbed"` | Overrides image repository |
 | image.tag | string | `""` | Overrides image tag (default is chart `appVersion`) |
+| iterations | int | `1` | Defines how many times to print log message |
 | nameOverride | string | `""` | Overrides name used in selector labels |
 | nodeSelector | object | `{}` | [Specify the node labels you want the target node to have](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
 | podAnnotations | object | `{}` | [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) specific to pods |
 | resources | object | `{}` | [Resource management for pods and containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
+| sleepSec | int | `1` | Defines how many seconds to sleep before printing next log message |
 | tolerations | list | `[]` | [Tolerations allow the scheduler to schedule pods with matching taints](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) |
 
 ## Maintainers
