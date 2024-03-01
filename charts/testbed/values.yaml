@@ -1,5 +1,9 @@
 # -- Whether to install the chart in debug mode
 debug: false
+# -- Defines how many times to print log message
+iterations: 1
+# -- Defines how many seconds to sleep before printing next log message
+sleepSec: 1
 
 image:
   # -- Overrides image repository
