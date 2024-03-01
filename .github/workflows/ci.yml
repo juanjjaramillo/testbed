@@ -29,6 +29,21 @@ jobs:
         run: |
           make lint-charts
 
+      - name: Install Helm Docs
+        # Use syntax ${version} instead of $version
+        # In certain contexts, only the less ambiguous ${version} form works
+        # Source: https://tldp.org/LDP/abs/html/parameter-substitution.html
+        run: |
+          version="v1.13.0"
+          stripped=$( echo "${version}" | sed s'/v//' )
+          wget https://github.com/norwoodj/helm-docs/releases/download/${version}/helm-docs_${stripped}_Linux_x86_64.tar.gz
+          tar --extract --verbose --file="helm-docs_${stripped}_Linux_x86_64.tar.gz" helm-docs
+          sudo mv helm-docs /usr/local/sbin
+
+      - name: Verify Helm docs are up to date
+        run: |
+          make validate-helm-docs
+
   golangci-lint:
     name: Lint Go files
     runs-on: ubuntu-latest

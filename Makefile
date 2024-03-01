@@ -16,7 +16,7 @@ IMPORT = $(MODULE)/src
 LDFLAGS ?= -ldflags="-X '$(IMPORT)/utils.commit=$(COMMIT)' -X '$(IMPORT)/utils.date=$(DATE)' -X '$(IMPORT)/utils.version=$(VERSION)'"
 
 .PHONY: all
-all: clean format modules lint test build
+all: clean format modules lint test build lint-charts validate-helm-docs
 
 .PHONY: clean
 clean:
@@ -57,6 +57,12 @@ coverprofile:
 .PHONY: lint-charts
 lint-charts:
 	helm lint charts/**
+
+.PHONY: validate-helm-docs
+validate-helm-docs:
+	@# Fail if changes have not been committed
+	helm-docs
+	git diff --exit-code -- charts/testbed/README.md
 
 .PHONY: validate-modules
 validate-modules: modules
