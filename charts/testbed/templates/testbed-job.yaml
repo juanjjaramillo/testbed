@@ -27,10 +27,10 @@ spec:
           - "--debug"
         {{- end }}
         {{- if .Values.iterations }}
-          - "--iterations {{ .Values.iterations }}"
+          - "--iterations={{ .Values.iterations }}"
         {{- end }}
         {{- if .Values.sleepSec }}
-          - "--sleepSec {{ .Values.sleepSec }}"
+          - "--sleepSec={{ .Values.sleepSec }}"
         {{- end }}
       restartPolicy: Never
       {{- with .Values.nodeSelector }}
