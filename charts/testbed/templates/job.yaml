@@ -1,3 +1,4 @@
+{{- if .Values.objects.job }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -12,7 +13,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "testbed.selectorLabels" . | nindent 8 }}
+        {{- include "testbed.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
@@ -23,14 +27,14 @@ spec:
           {{- toYaml . | nindent 8 }}
         {{- end }}
         args:
-        {{- if .Values.debug }}
+        {{- if .Values.appFlags.debug }}
           - "--debug"
         {{- end }}
-        {{- if .Values.iterations }}
-          - "--iterations={{ .Values.iterations }}"
+        {{- if .Values.appFlags.iterations }}
+          - "--iterations={{ .Values.appFlags.iterations }}"
         {{- end }}
-        {{- if .Values.sleepSec }}
-          - "--sleepSec={{ .Values.sleepSec }}"
+        {{- if .Values.appFlags.sleepSec }}
+          - "--sleepSec={{ .Values.appFlags.sleepSec }}"
         {{- end }}
       restartPolicy: Never
       {{- with .Values.nodeSelector }}
@@ -46,3 +50,4 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
 status: {}
+{{- end }}

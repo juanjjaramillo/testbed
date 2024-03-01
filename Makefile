@@ -36,7 +36,7 @@ modules:
 
 .PHONY: lint
 lint:
-	golangci-lint run
+	golangci-lint run --config=./.github/.golangci.yml
 
 .PHONY: test
 test:
