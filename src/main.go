@@ -27,7 +27,7 @@ func main() {
 func parseFlags() *flagSet {
 	var fs flagSet
 	flag.BoolVar(&fs.debug, "debug", false, "sets log level to debug")
-	flag.IntVar(&fs.iterations, "iterations", 1, "defines how many times to print log message")
+	flag.IntVar(&fs.iterations, "iterations", 1, "defines how many times to print log message, a negative value means 'forever'")
 	flag.IntVar(&fs.sleepSec, "sleepSec", 1, "defines how many seconds to sleep before printing next log message")
 	flag.Parse()
 	return &fs

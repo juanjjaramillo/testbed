@@ -1,9 +1,21 @@
-# -- Whether to install the chart in debug mode
-debug: false
-# -- Defines how many times to print log message
-iterations: 1
-# -- Defines how many seconds to sleep before printing next log message
-sleepSec: 1
+# -- Flags used in the Go app
+appFlags:
+  # -- Whether to install the chart in debug mode
+  debug: false
+  # -- Defines how many times to print log message, a negative value means 'forever'
+  iterations: 1
+  # -- Defines how many seconds to sleep before printing next log message
+  sleepSec: 1
+
+# -- Kubernetes objects to create
+objects:
+  # -- [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) object
+  deployment: false
+  # -- [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) object
+  job: false
+
+# -- [Desired replica count](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) in a Deployment spec
+replicaCount: 1
 
 image:
   # -- Overrides image repository
@@ -20,6 +32,9 @@ fullnameOverride: ""
 
 # -- [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) specific to pods
 podAnnotations: {}
+
+# -- Pod-specific labels
+podLabels: {}
 
 # -- [Resource management for pods and containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)
 resources: {}
