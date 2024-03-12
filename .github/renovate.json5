@@ -35,6 +35,7 @@
       "description": "Update helm-docs",
       "customType": "regex",
       "fileMatch": [
+        "(^|/)ci\.ya?ml$",
         "(^|/)release-version\.ya?ml$",
       ],
       "matchStrings": [
