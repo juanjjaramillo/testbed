@@ -39,7 +39,7 @@ helm install my-testbed testbed-charts/testbed
 ```
 or debug mode
 ```shell
-helm install my-testbed testbed-charts/testbed --set debug=true
+helm install my-testbed testbed-charts/testbed --set appFlags.debug=true
 ```
 
 To uninstall the chart:
@@ -56,18 +56,18 @@ helm delete my-testbed
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | [Affinity and anti-affinity allow the scheduler to schedule pods with matching constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) |
-| appFlags | object | `{"debug":false,"iterations":1,"sleepSec":1}` | Flags used in the Go app |
+| appFlags | object | `{"debug":false,"iterations":-1,"sleepSec":60}` | Flags used in the Go app |
 | appFlags.debug | bool | `false` | Whether to install the chart in debug mode |
-| appFlags.iterations | int | `1` | Defines how many times to print log message, a negative value means 'forever' |
-| appFlags.sleepSec | int | `1` | Defines how many seconds to sleep before printing next log message |
+| appFlags.iterations | int | `-1` | Defines how many times to print log message, a negative value means 'forever' |
+| appFlags.sleepSec | int | `60` | Defines how many seconds to sleep before printing next log message |
 | fullnameOverride | string | `""` | Overrides name used in `.metadata.name` |
 | image.pullPolicy | string | `"IfNotPresent"` | Set it to either `IfNotPresent`, `Always` or `Never` |
 | image.repository | string | `"juanjjaramillo/testbed"` | Overrides image repository |
 | image.tag | string | `""` | Overrides image tag (default is chart `appVersion`) |
 | nameOverride | string | `""` | Overrides name used in selector labels |
 | nodeSelector | object | `{}` | [Specify the node labels you want the target node to have](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) |
-| objects | object | `{"deployment":false,"job":false}` | Kubernetes objects to create |
-| objects.deployment | bool | `false` | [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) object |
+| objects | object | `{"deployment":true,"job":false}` | Kubernetes objects to create |
+| objects.deployment | bool | `true` | [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) object |
 | objects.job | bool | `false` | [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) object |
 | podAnnotations | object | `{}` | [Annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) specific to pods |
 | podLabels | object | `{}` | Pod-specific labels |
