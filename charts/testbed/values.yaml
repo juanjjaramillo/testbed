@@ -3,14 +3,14 @@ appFlags:
   # -- Whether to install the chart in debug mode
   debug: false
   # -- Defines how many times to print log message, a negative value means 'forever'
-  iterations: 1
+  iterations: -1
   # -- Defines how many seconds to sleep before printing next log message
-  sleepSec: 1
+  sleepSec: 60
 
 # -- Kubernetes objects to create
 objects:
   # -- [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) object
-  deployment: false
+  deployment: true
   # -- [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) object
   job: false
 
