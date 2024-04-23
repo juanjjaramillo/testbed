@@ -41,18 +41,30 @@ lint:
 .PHONY: test
 test:
 	mkdir $(TMP_DIR) || true
-	go test -cover -covermode=count -coverprofile=$(TMP_DIR)/cover.out ./...
+	go test -cover -covermode=count -coverprofile=$(TMP_DIR)/cover-unit.out ./...
+
+.PHONY: integration
+integration:
+	mkdir $(TMP_DIR) || true
+	CGO_ENABLED=0 go build -cover $(LDFLAGS) -o $(BIN_DIR)/testbed $(GO_DIR)
+	GOCOVERDIR=$(TMP_DIR) bin/testbed
+	GOCOVERDIR=$(TMP_DIR) bin/testbed -debug
+	go tool covdata textfmt -i=$(TMP_DIR) -o $(TMP_DIR)/cover-integration.out
+	go tool covdata percent -i=$(TMP_DIR)
 
 .PHONY: build
 build:
 	CGO_ENABLED=0 go build $(LDFLAGS) -o $(BIN_DIR)/testbed $(GO_DIR)
 
 .PHONY: coverprofile
-coverprofile:
-	mkdir $(TMP_DIR) || true
-	go test -cover -covermode=count -coverprofile=$(TMP_DIR)/cover.out ./...
-	go tool cover -html=$(TMP_DIR)/cover.out
-	go tool cover -func=$(TMP_DIR)/cover.out
+coverprofile: test
+	go tool cover -html=$(TMP_DIR)/cover-unit.out
+	go tool cover -func=$(TMP_DIR)/cover-unit.out
+
+.PHONY: coverprofile-integration
+coverprofile-integration: integration
+	go tool cover -html=$(TMP_DIR)/cover-integration.out
+	go tool cover -func=$(TMP_DIR)/cover-integration.out
 
 .PHONY: lint-charts
 lint-charts:
