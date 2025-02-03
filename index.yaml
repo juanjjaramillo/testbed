@@ -2,6 +2,23 @@ apiVersion: v1
 entries:
   testbed:
   - apiVersion: v2
+    appVersion: 0.58.0
+    created: "2025-02-03T12:23:55.794318716Z"
+    description: A Helm chart for testing Helm and Kubernetes concepts
+    digest: 60ce35e608057d87afef169f2d21721b6b2853bd279925deaefc998b4a3a7382
+    home: https://github.com/juanjjaramillo/testbed/blob/main/charts/testbed/README.md
+    icon: https://raw.githubusercontent.com/juanjjaramillo/testbed/main/misc/logo.svg
+    maintainers:
+    - name: Juan Jose Jaramillo
+      url: https://github.com/juanjjaramillo
+    name: testbed
+    sources:
+    - https://github.com/juanjjaramillo/testbed/
+    type: application
+    urls:
+    - https://github.com/juanjjaramillo/testbed/releases/download/testbed-0.58.0/testbed-0.58.0.tgz
+    version: 0.58.0
+  - apiVersion: v2
     appVersion: 0.57.0
     created: "2025-01-27T12:25:09.592065022Z"
     description: A Helm chart for testing Helm and Kubernetes concepts
@@ -932,4 +949,4 @@ entries:
     urls:
     - https://github.com/juanjjaramillo/testbed/releases/download/testbed-0.4.0/testbed-0.4.0.tgz
     version: 0.4.0
-generated: "2025-01-27T12:25:09.592320671Z"
+generated: "2025-02-03T12:23:55.794582939Z"
