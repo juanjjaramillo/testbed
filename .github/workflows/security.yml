@@ -49,7 +49,7 @@ jobs:
           docker build --tag juanjjaramillo/testbed:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@76071ef0d7ec797419534a183b498b4d6366cf37 # 0.31.0
+        uses: aquasecurity/trivy-action@c1824fd6edce30d7ab345a9989de00bbd46ef284 # 0.34.0
         with:
           image-ref: 'juanjjaramillo/testbed:${{ github.sha }}'
           ignore-unfixed: true
