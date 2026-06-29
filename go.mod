@@ -1,6 +1,6 @@
 module github.com/juanjjaramillo/testbed
 
-go 1.24.4
+go 1.26.4
 
 require go.uber.org/zap v1.28.0
 
